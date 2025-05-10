@@ -1,0 +1,21 @@
+[include]
+  path = ~/data/git/.gitconfig.local
+[core]
+	editor = nvim
+[pull]
+	ff = false
+	rebase = false
+[init]
+	defaultBranch = main
+[difftool]
+	prompt = false
+[diff]
+	tool = nvimdiff
+    trustExitCode = true
+[difftool "nvimdiff"]
+    cmd = "nvim -d \"$REMOTE\" \"$LOCAL\""
+[color "diff"]
+    old = black red
+    new = black green
+[push]
+	autoSetupRemote = true
