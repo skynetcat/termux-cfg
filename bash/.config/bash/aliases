@@ -17,8 +17,10 @@ alias ao="$HOME/scripts/aset -c"
 alias t="utrash"
 alias tl="utrash -l"
 
+alias s="udots"
 alias sa="udots -a"
-alias sl="udots"
+alias sl="udots -l"
+alias sd="udots -d"
 alias sv="nvim ~/git/udots/udots"
 
 alias lynx="lynx -cfg $HOME/.config/lynx/lynx.cfg"
