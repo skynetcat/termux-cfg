@@ -8,7 +8,6 @@ alias r="nala remove"
 alias q="nala search"
 
 
-
 # ----------------------------
 # TOOLS / UTILITIES
 # ----------------------------
@@ -89,7 +88,7 @@ aks () {
 # FILE SHORTCUTS
 # ----------------------------
 alias vb="nvim $HOME/.config/bash/.bashrc"
-alias vbh="nvim $HOME/.config/bash/.bash_eternal_history"
+alias vbh="nvim $HOME/data/.bash_eternal_history"
 alias vt="nvim $HOME/.config/tmux.conf"
 alias vi="nvim $HOME/scripts/install"
 alias vba="nvim $HOME/.config/bash/aliases"
