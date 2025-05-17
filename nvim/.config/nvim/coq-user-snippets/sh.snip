@@ -1,0 +1,33 @@
+snippet si
+abbr Short If
+  [[ $1 ]] && $2
+
+snippet sib
+abbr Short If Block
+  [[ $1 ]] && {
+    $2
+  }
+
+  $0
+
+snippet c
+abbr Case
+  case "$1" in
+    "$2") 
+      $3 
+      ;;
+
+    *)
+      $4
+      ;;
+  esac
+
+  $0
+
+snippet f
+abbr Function
+  $1 () {
+    $2
+  }
+
+  $0

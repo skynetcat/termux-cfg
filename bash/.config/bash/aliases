@@ -2,7 +2,7 @@
 # ----------------------------
 # PACKAGE MANAGER
 # ----------------------------
-alias i="nala install"
+alias i="nala update && nala install"
 alias u="nala update && nala upgrade"
 alias r="nala remove"
 alias q="nala search"
@@ -17,6 +17,7 @@ alias t="utrash"
 alias tl="utrash -l"
 
 alias s="udots"
+alias si="udots -i"
 alias sa="udots -a"
 alias sl="udots -l"
 alias sd="udots -d"

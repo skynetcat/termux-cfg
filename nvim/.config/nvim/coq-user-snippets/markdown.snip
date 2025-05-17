@@ -1,0 +1,94 @@
+snippet img
+abbr Image
+  ![$2]($1)$0
+
+snippet link
+alias l
+abbr Link
+  [$2]($1)$0
+
+snippet limg
+abbr Img Link
+  [![$3]($2)]($1)$0
+
+snippet h1
+abbr Header 1
+  # $0
+
+snippet h2
+abbr Header 2
+  ## $0
+
+snippet h3
+abbr Header 3
+  ### $0
+
+snippet h4
+abbr Header 4
+  #### $0
+
+snippet cb
+abbr Code Block
+  ```$1
+  $0
+  ```
+
+snippet c
+abbr Code
+  `$1`$0
+
+snippet b
+abbr Bold
+  **$1**$0
+
+snippet i
+abbr Italic
+  *$1*$0
+
+snippet bi
+abbr Bold Italic
+  ***$1***$0
+
+snippet q
+abbr quote
+  > $0
+
+snippet ol
+abbr Ordered List
+  1. $1
+  2. $2
+  3. $0
+
+snippet ul
+abbr Unordered List
+  - $1
+  - $2
+  - $0
+
+snippet hl
+abbr H Line
+  ---
+  $0
+
+snippet ss
+abbr Subscript
+  ~$1~$0
+
+snippet su
+abbr Superscript
+  ^$1^$0
+
+snippet st
+abbr Strikethrough
+  ~~$1~~$0
+
+snippet fn
+abbr Footnote
+  [^$1]$0
+
+snippet t
+abbr Table
+  | $1 | $2 |
+  | ----- | ----- |
+  | $3 | $4 |
+  $0
