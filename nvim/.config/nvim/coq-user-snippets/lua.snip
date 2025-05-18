@@ -1,0 +1,4 @@
+snippet kb
+abbr Keybind
+  vim.keymap.set('${1|i,n|}', '$2', $3, { desc = '$4' })
+  $0
