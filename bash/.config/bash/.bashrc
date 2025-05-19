@@ -1,6 +1,5 @@
 source $HOME/.config/bash/prompt
 source $HOME/.config/bash/aliases
-source $HOME/scripts/lib/term-cfns
 
 # FZF bash
 eval "$(fzf --bash)"
@@ -11,15 +10,13 @@ set -o vi
 # ----------------------------
 # ENV VARS
 # ----------------------------
-export ANDROID_SDK_ROOT="$HOME/Android/sdk"
-
-export JAVA_HOME=/data/data/com.termux/files/usr/lib/jvm/java-17-openjdk
-
-export PATH="$PATH:$HOME/scripts:$HOME/.cargo/bin:$HOME/bin:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$HOME/go/bin:$HOME/src/llama.cpp/build/bin:$HOME/bin/:$HOME/.local/bin"
+export PATH="$PATH:$HOME/go/bin:$HOME/.local/bin"
 
 export MANPAGER="nvim +Man!"
-
 export EDITOR="nvim"
+
+# Timezone
+export TZ=Africa/Cairo
 
 
 

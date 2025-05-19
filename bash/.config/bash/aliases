@@ -1,15 +1,101 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 # ----------------------------
-# PACKAGE MANAGER
+# MAIN PACKAGE MANAGER
 # ----------------------------
-alias i="nala update && nala install"
+
+alias i="nala install"
+alias n="nala show"
 alias u="nala update && nala upgrade"
 alias r="nala remove"
 alias q="nala search"
 
+nc () {
+  nala clean
+  nala autoremove
+  nala autopurge
+}
+
 
 # ----------------------------
 # TOOLS / UTILITIES
+# ----------------------------
+
+alias c="clear"
+
+alias v="nvim"
+
+alias grep="grep --color=always -i"
+
+# recursive grep
+rgrep () { grep -r "$1" *; }
+
+alias ll='eza -lah --icons=always --group-directories-first --sort=modified --time-style="+%d/%m/%Y %H:%M"'
+
+alias sb="source $HOME/.bashrc"
+
+alias sck="shellcheck"
+
+alias lynx="lynx -cfg $HOME/.config/lynx/lynx.cfg"
+
+alias ytd='yt-dlp -f "bestvideo[ext=mp4][vcodec^=avc][height<=480]+bestaudio/best[height<=480]"'
+
+alias stard='sdcv --data-dir="storage/shared/Documents/backup/stardict"'
+
+
+# ----------------------------
+# Package Managers
+# ----------------------------
+
+GOPATH="$HOME/go"
+# Golang list packages
+alias gl="ls -1 $GOPATH/bin/"
+
+# Golang remove binary
+gr () {
+ if [[ -f "$GOPATH/bin/$1" ]]; then
+   echo "Are you ABSOLUTELY sure you wanna ERASE '$1' from Go ?"
+   read -rp "(y/N) " grAnswer
+   if [[ "$grAnswer" =~ ^(y|Y|yes|Yes)$ ]]; then
+     rm -rf "$GOPATH/bin/$1"
+     echo "[ERASED] '$1' from '$GOPATH/bin/'"
+   else 
+     echo -e "\nNothing was removed"
+   fi
+ else
+   echo "'$1' does not exist within $GOPATH/bin/"
+ fi
+}
+
+
+
+# ----------------------------
+# Quick Jump
+# ----------------------------
+
+jumpDirs=(
+  "$HOME/git"
+  "$HOME/.config"
+  "$HOME/data"
+)
+
+jump () { 
+  jumpPath="$(find "${jumpDirs[@]}" -type $1 \
+    ! -path '*/blog/public/*' \
+    ! -path '*/blog/themes/*' \
+    ! -path '*/.git/*' |\
+    sed "s|^$HOME|~|g" | fzf | sed "s|^~|$HOME|")"
+
+  [[ "$1" == "d" ]] && cd "$jumpPath" || nvim "$jumpPath"
+}
+
+j () { jump d ;}
+jv () { jump f ;}
+
+
+
+# ----------------------------
+# User Scripts
 # ----------------------------
 alias ao="$HOME/scripts/aset -c"
 
@@ -21,33 +107,6 @@ alias si="udots -i"
 alias sa="udots -a"
 alias sl="udots -l"
 alias sd="udots -d"
-alias sv="nvim ~/git/udots/udots"
-
-alias lynx="lynx -cfg $HOME/.config/lynx/lynx.cfg"
-
-alias c="clear"
-
-alias v="nvim"
-
-alias vc="NVIM_APPNAME=nvchad nvim"
-
-alias sb="source $HOME/.bashrc"
-
-alias ll='eza -lah --icons=always --group-directories-first --sort=modified --time-style="+%d/%m/%Y %H:%M"'
-
-alias grep="grep --color=always -i"
-
-# recursive grep
-rgrep () { grep -r "$1" *; }
-
-alias sck="shellcheck"
-
-alias lf="TERM=screen-256color lf -config <(cat $HOME/.config/lf/lfrc; echo set ratios 1)"
-
-alias ytd='yt-dlp -f "bestvideo[ext=mp4][vcodec^=avc][height<=480]+bestaudio/best[height<=480]"'
-
-alias stard='sdcv --data-dir="storage/shared/Documents/backup/stardict"'
-
 
 
 # ----------------------------
@@ -90,8 +149,6 @@ aks () {
 # ----------------------------
 alias vb="nvim $HOME/.config/bash/.bashrc"
 alias vbh="nvim $HOME/data/.bash_eternal_history"
-alias vt="nvim $HOME/.config/tmux.conf"
-alias vi="nvim $HOME/scripts/install"
 alias vba="nvim $HOME/.config/bash/aliases"
 
 
