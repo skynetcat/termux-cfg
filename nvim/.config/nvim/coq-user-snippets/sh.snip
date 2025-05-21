@@ -1,3 +1,21 @@
+snippet if
+abbr If
+  if [[ $1 ]]; then
+    $2
+  fi
+
+  $0
+
+snippet elif
+abbr Else If
+  if [[ $1 ]]; then
+    $2
+  else
+    $3
+  fi
+
+  $0
+
 snippet si
 abbr Short If
   [[ $1 ]] && $2
@@ -31,3 +49,17 @@ abbr Function
   }
 
   $0
+
+snippet sh
+abbr Shebang
+  #!/usr/bin/env bash
+
+snippet nce
+abbr No CMD Exists
+  if ! command -v $1 &>/dev/null; then
+    $2
+  fi
+
+  $0
+
+

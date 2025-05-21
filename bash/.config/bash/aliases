@@ -6,6 +6,8 @@
 
 alias i="nala install"
 alias n="nala show"
+alias nl="nala list -N"
+
 alias u="nala update && nala upgrade"
 alias r="nala remove"
 alias q="nala search"
@@ -20,6 +22,9 @@ nc () {
 # ----------------------------
 # TOOLS / UTILITIES
 # ----------------------------
+
+alias cb="cd .."
+alias cp="cd -"
 
 alias c="clear"
 
