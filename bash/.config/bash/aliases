@@ -6,7 +6,7 @@
 
 alias i="nala install"
 alias n="nala show"
-alias nl="nala list -N"
+alias l="nala list -N"
 
 alias u="nala update && nala upgrade"
 alias r="nala remove"
@@ -24,7 +24,7 @@ nc () {
 # ----------------------------
 
 alias cb="cd .."
-alias cp="cd -"
+alias cr="cd -"
 
 alias c="clear"
 
@@ -91,7 +91,10 @@ jump () {
     ! -path '*/.git/*' |\
     sed "s|^$HOME|~|g" | fzf | sed "s|^~|$HOME|")"
 
-  [[ "$1" == "d" ]] && cd "$jumpPath" || nvim "$jumpPath"
+  if [[ -n "$jumpPath" ]]; then
+    [[ "$1" == "d" ]] && cd "$jumpPath" || nvim "$jumpPath"
+  fi
+
 }
 
 j () { jump d ;}
@@ -108,6 +111,7 @@ alias t="utrash"
 alias tl="utrash -l"
 
 alias s="udots"
+alias sz="udots -z"
 alias si="udots -i"
 alias sa="udots -a"
 alias sl="udots -l"
@@ -117,6 +121,16 @@ alias sd="udots -d"
 # ----------------------------
 # SERVICES
 # ----------------------------
+alias hp="hugo new post/"
+
+hv () {
+  editPath="$(find "$HOME/git/blog/content" -type f |\
+    sed "s|$HOME/git/blog/content/||g" |\
+    fzf)"
+
+  [[ -n "$editPath" ]] && nvim "$HOME/git/blog/content/$editPath"
+}
+
 alias arias="aria2c --check-certificate=false --dir=/storage/emulated/0/Download --enable-rpc"
 
 alias ce="EDITOR=nvim crontab -e"
