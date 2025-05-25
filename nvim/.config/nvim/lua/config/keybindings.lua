@@ -22,7 +22,10 @@ vim.keymap.set("n", "<leader>q", "<cmd>:w<CR>:bd<CR>", {})
 -- Open next URL in current line
 vim.keymap.set("n", "<leader>o", "<cmd>:URLOpenUnderCursor<CR>", {})
 
-
+-- vim.keymap.set('i', '<Down>', function()
+--   if vim.fn.pumvisible() == 1 then return vim.cmd('norm! j') end
+--   return '<Down>'
+-- end, {silent = true, expr = true})
 
 -- ################################
 -- Splits

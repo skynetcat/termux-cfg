@@ -32,6 +32,9 @@ vim.opt.shiftwidth = 2
 vim.bo.softtabstop = 2
 vim.opt.expandtab = true
 
+-- Use vertical diff view
+vim.opt.diffopt:append("horizontal")
+
 -- ################################
 -- Custom Functions
 -- ################################
