@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source ~/.local/lib/umacros
+
 # ----------------------------
 # MAIN PACKAGE MANAGER
 # ----------------------------
@@ -47,6 +49,132 @@ alias ytd='yt-dlp -f "bestvideo[ext=mp4][vcodec^=avc][height<=480]+bestaudio/bes
 
 alias stard='sdcv --data-dir="storage/shared/Documents/backup/stardict"'
 
+fzfCmd () {
+  local fzfPrompt="$1"
+  local fzfBindings=(
+    "Tab:toggle"
+    "ctrl-p:toggle+up"
+    "ctrl-n:toggle+down"
+    "ctrl-a:toggle-all"
+  )
+
+  local tmpBinds="${fzfBindings[@]}"
+  local allFzfBinds="${tmpBinds// /,}"
+
+  fzf -m \
+  --height=40% \
+  --layout reverse \
+  --border sharp \
+  --prompt "$fzfPrompt" \
+  --pointer '▶' \
+  --marker '▶ ' \
+  --bind="$allFzfBinds" \
+  --header="[Tab:toggle, C-n:toggleDown, C-p:toggleUp, C-a:toggleAll]"
+}
+
+
+
+# ----------------------------
+# Programming
+# ----------------------------
+# This is a function that:
+#   - Lists all dirs in the project
+#   - Rm dirs from the project
+#   - Jump to a dir inside the project
+#   - Makes a new numbered dir in the project
+#
+# Syntax: progMan "LANG_ABBR" "PROJECT_PATH" "${@:1}"
+#
+# Example: progMan "Py" "~/python" "${@:1}"
+progMan () {
+  local langName="$1"
+  local dirPath="$2"
+
+  local rawAllDirs=($(find ${dirPath} ! -path "*/.git*" ! -path "${dirPath}" -type d))
+
+  local allDirs="${rawAllDirs[@]//${dirPath}\//}"
+
+  case "$3" in
+    "mk")
+      local projectName="$4"
+      [[ -z "${projectName}" ]] && {
+        paint fg red "[ERR]" " No dir name specified"
+        return 1
+      }
+
+      [[ ${#rawAllDirs[@]} -eq 0 ]] && order=1 || ((order=${#rawAllDirs[@]}+1))
+
+      local projectPath="$HOME/git/python-code/${order}_${projectName}"
+      
+      mkdir "${projectPath}"
+      cd "${projectPath}"
+      ;;
+
+    "rm")
+      [[ -z "$allDirs" ]] && {
+        paint fg yellow "[Warning]" " No directories were found in ${dirPath//$HOME/\~}"
+        return 0
+      }
+
+      local fzfPrompt="RM ($langName) > "
+      local rmChoice=($(echo -e "${allDirs// /\\n}" |\
+        fzfCmd "$fzfPrompt"))
+
+      [[ "${#rmChoice[@]}" -gt 0 ]] && {
+        echo -e "Are you sure you wanna $(paint fg purple "REMOVE") the following?\n"
+
+        lineCounter=1
+        for item in "${rmChoice[@]}"; do
+          paint fg blue "[${lineCounter}] $item"
+          ((lineCounter=lineCounter+1))
+        done
+
+        echo "" 
+        read -rp "(y/N) " rmAnswer
+
+        if [[ "$rmAnswer" =~ ^(y|Y|yes|Yes)$ ]]; then
+          echo ""
+          for dir in "${rmChoice[@]}"; do
+            rm -rf "$dirPath/$dir"
+            paint fg purple "[Removed]" " $dir"
+          done
+        else
+          echo -e "\nNothing was removed"
+        fi
+      }
+      ;;
+
+    "l")
+      [[ -z "$allDirs" ]] && {
+        paint fg yellow "[Warning]" " No directories were found in ${dirPath//$HOME/\~}"
+        return 0
+      }
+
+      lineCounter=1
+      for item in "${allDirs[@]}"; do
+        paint fg blue "[${lineCounter}] ${item//$dirPath\//}"
+        ((lineCounter=lineCounter+1))
+      done
+      ;;
+
+    "j")
+      [[ -z "$allDirs" ]] && {
+        paint fg yellow "[Warning]" " No directories were found in ${dirPath//$HOME/\~}"
+        return 0
+      }
+
+      local fzfPrompt="Jump ($langName) > "
+
+      local jumpPath="$(echo -e "${allDirs// /\\n}"| fzfCmd "$fzfPrompt")"
+
+      [[ -n "$jumpPath" ]] && cd "$dirPath/$jumpPath"
+      ;;
+  esac
+}
+
+p () { progMan "Py" "$HOME/git/python-code" ${@:1} ;}
+
+
 
 # ----------------------------
 # Package Managers
@@ -85,7 +213,7 @@ jumpDirs=(
 )
 
 jump () { 
-  jumpPath="$(find "${jumpDirs[@]}" -type $1 \
+  local jumpPath="$(find "${jumpDirs[@]}" -type $1 \
     ! -path '*/blog/public/*' \
     ! -path '*/blog/themes/*' \
     ! -path '*/.git/*' |\
