@@ -1,15 +1,36 @@
+source ~/scripts/lib/term-cfns
+source $HOME/.local/lib/umacros
 source $HOME/.config/bash/prompt
-source $HOME/.config/bash/aliases
 
-# FZF bash
-eval "$(fzf --bash)"
-
-# Vim mode
+# =====================================================
+# Bash vi mode
+# =====================================================
 set -o vi
 
-# ----------------------------
+
+
+# =====================================================
+# FZF bash
+# =====================================================
+eval "$(fzf --bash)"
+  
+fzfMenu
+
+export FZF_COMPLETION_TRIGGER='*'
+export FZF_COMPLETION_OPTS="--height 15 --layout reverse --border sharp --pointer '▶' --marker '▶ ' --prompt \"$fzfNormalPrompt\" --bind=\"$allFzfBinds\" --color prompt:7"
+
+
+
+# =====================================================
+# Aliases
+# =====================================================
+source $HOME/.config/bash/aliases
+
+
+
+# =====================================================
 # ENV VARS
-# ----------------------------
+# =====================================================
 export PATH="$PATH:$HOME/go/bin:$HOME/.local/bin"
 
 export MANPAGER="nvim +Man!"
@@ -20,9 +41,9 @@ export TZ=Africa/Cairo
 
 
 
-# ----------------------------
-# AUTOSTART TMUX UPON LAUNCH
-# ----------------------------
+# =====================================================
+# Autostart tmux upon launch
+# =====================================================
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
     # Grab all unnamed detached sessions and kill them
     detached_tmux=$( tmux list-sessions -F '#{session_name} #{session_attached} #{session_id}' |\
@@ -35,14 +56,15 @@ fi
 
 
 
-# -----------------------------------------------------
+# =====================================================
 # Eternal bash history.
-# -----------------------------------------------------
+# =====================================================
 # https://stackoverflow.com/questions/9457233/unlimited-bash-history
-# -----------------------------------------------------
+# =====================================================
 export HISTFILESIZE=9999999
 export HISTSIZE=9999999
 export HISTTIMEFORMAT="[%F %T] "
+export HISTCONTROL=ignoreups:erasedups
 
 # Change the file location because certain bash sessions truncate .bash_history file upon close.
 # http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login

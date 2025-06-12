@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-source ~/.local/lib/umacros
-
 # ----------------------------
 # MAIN PACKAGE MANAGER
 # ----------------------------
@@ -27,6 +25,7 @@ nc () {
 
 alias cb="cd .."
 alias cr="cd -"
+alias ce="cd /data/data/org.gnu.emacs/"
 
 alias c="clear"
 
@@ -49,27 +48,32 @@ alias ytd='yt-dlp -f "bestvideo[ext=mp4][vcodec^=avc][height<=480]+bestaudio/bes
 
 alias stard='sdcv --data-dir="storage/shared/Documents/backup/stardict"'
 
-fzfCmd () {
-  local fzfPrompt="$1"
+progManFzf () {
+  local fzfNormalMsg="$(paint bg blue " N ") $1"
+  local fzfInsertMsg="$(paint bg purple " I ") $1"
+  
   local fzfBindings=(
     "Tab:toggle"
-    "ctrl-p:toggle+up"
-    "ctrl-n:toggle+down"
-    "ctrl-a:toggle-all"
+    "p:toggle+up"
+    "n:toggle+down"
+    "a:toggle-all"
+    "j:down"
+    "k:up"
+    "q:abort"
   )
 
-  local tmpBinds="${fzfBindings[@]}"
-  local allFzfBinds="${tmpBinds// /,}"
+  fzfModeBuild
 
   fzf -m \
-  --height=40% \
+  --height 15 \
   --layout reverse \
   --border sharp \
-  --prompt "$fzfPrompt" \
+  --prompt "$fzfNormalMsg" \
+  --color prompt:7 \
   --pointer '▶' \
   --marker '▶ ' \
   --bind="$allFzfBinds" \
-  --header="[Tab:toggle, C-n:toggleDown, C-p:toggleUp, C-a:toggleAll]"
+  --header="[Tab:toggle, n:toggleDown, p:toggleUp, a:toggleAll]" "${@:2}"
 }
 
 
@@ -98,8 +102,12 @@ progMan () {
     "mk")
       local projectName="$4"
       [[ -z "${projectName}" ]] && {
-        paint fg red "[ERR]" " No dir name specified"
-        return 1
+        read -rp "Name: " projectName
+
+        [[ -z "${projectName}" ]] && {
+          paint fg red "[ERR]" " No dir name specified"
+          return 1
+        }
       }
 
       [[ ${#rawAllDirs[@]} -eq 0 ]] && order=1 || ((order=${#rawAllDirs[@]}+1))
@@ -118,7 +126,7 @@ progMan () {
 
       local fzfPrompt="RM ($langName) > "
       local rmChoice=($(echo -e "${allDirs// /\\n}" |\
-        fzfCmd "$fzfPrompt"))
+        progManFzf "$fzfPrompt"))
 
       [[ "${#rmChoice[@]}" -gt 0 ]] && {
         echo -e "Are you sure you wanna $(paint fg purple "REMOVE") the following?\n"
@@ -165,7 +173,7 @@ progMan () {
 
       local fzfPrompt="Jump ($langName) > "
 
-      local jumpPath="$(echo -e "${allDirs// /\\n}"| fzfCmd "$fzfPrompt")"
+      local jumpPath="$(echo -e "${allDirs// /\\n}"| progManFzf "$fzfPrompt")"
 
       [[ -n "$jumpPath" ]] && cd "$dirPath/$jumpPath"
       ;;
@@ -173,6 +181,8 @@ progMan () {
 }
 
 p () { progMan "Py" "$HOME/git/python-code" ${@:1} ;}
+
+alias py="python3"
 
 
 
@@ -220,7 +230,13 @@ jump () {
     sed "s|^$HOME|~|g" | fzf | sed "s|^~|$HOME|")"
 
   if [[ -n "$jumpPath" ]]; then
-    [[ "$1" == "d" ]] && cd "$jumpPath" || nvim "$jumpPath"
+    if [[ "$1" == "d" ]]; then
+      history -s "cd \"$jumpPath\""
+      cd "$jumpPath"
+    else
+      history -s "v \"$jumpPath\""
+      nvim "$jumpPath"
+    fi
   fi
 
 }
@@ -234,6 +250,8 @@ jv () { jump f ;}
 # User Scripts
 # ----------------------------
 alias ao="$HOME/scripts/aset -c"
+
+alias bm="$HOME/bin/bmark"
 
 alias t="utrash"
 alias tl="utrash -l"
@@ -249,7 +267,12 @@ alias sd="udots -d"
 # ----------------------------
 # SERVICES
 # ----------------------------
-alias hp="hugo new post/"
+hp () {
+  name="${@,,}"
+  hugo new posts/"${name// /-}".md
+}
+
+alias hs="hugo serve --disableFastRender --noHTTPCache"
 
 hv () {
   editPath="$(find "$HOME/git/blog/content" -type f |\
@@ -261,7 +284,7 @@ hv () {
 
 alias arias="aria2c --check-certificate=false --dir=/storage/emulated/0/Download --enable-rpc"
 
-alias ce="EDITOR=nvim crontab -e"
+alias vcron="EDITOR=nvim crontab -e"
 
 # Anki sync server
 aks () {

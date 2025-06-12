@@ -74,7 +74,7 @@ require("url-open").setup({
             underline = true,
         },
     },
-    deep_pattern = true,
+    deep_pattern = false,
     -- a list of patterns to open url under cursor
     extra_patterns = {
         -- {
