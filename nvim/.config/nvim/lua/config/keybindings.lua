@@ -51,7 +51,7 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- ################################
 --
 -- Open diagnostics on current line
-vim.keymap.set("n", "<leader>d", "<cmd>lua vim.diagnostic.open_float()<CR>", {})
+vim.keymap.set("n", "<leader>g", "<cmd>lua vim.diagnostic.open_float()<CR>", {})
 
 -- Open all diagnostics in a pane
 vim.keymap.set('n', '<leader>p', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })

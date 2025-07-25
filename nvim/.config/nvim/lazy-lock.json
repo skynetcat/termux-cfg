@@ -1,6 +1,10 @@
 {
-  "gruvbox-material": { "branch": "master", "commit": "f5f912fbc7cf2d45da6928b792d554f85c7aa89a" },
+  "autoclose.nvim": { "branch": "main", "commit": "3f86702b54a861a17d7994b2e32a7c648cb12fb1" },
+  "coq.thirdparty": { "branch": "3p", "commit": "6ee3c221c308dca7071387267ac76c9272b184a9" },
+  "coq_nvim": { "branch": "coq", "commit": "2732cfa52fffd32d535c782f418da6fb8bf331ea" },
+  "gruvbox-material": { "branch": "master", "commit": "66cfeb7050e081a746a62dd0400446433e802368" },
   "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
+  "nvim-lspconfig": { "branch": "master", "commit": "4d3b3bb8815fbe37bcaf3dbdb12a22382bc11ebe" },
   "nvim-treesitter": { "branch": "master", "commit": "42fc28ba918343ebfd5565147a42a26580579482" },
   "plenary.nvim": { "branch": "master", "commit": "857c5ac632080dba10aae49dba902ce3abf91b35" },
   "telescope.nvim": { "branch": "master", "commit": "a0bbec21143c7bc5f8bb02e0005fa0b982edc026" },
