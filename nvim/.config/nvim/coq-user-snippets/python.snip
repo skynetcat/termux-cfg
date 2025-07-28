@@ -1,0 +1,72 @@
+snippet cstr
+abbr Convert Str
+  str($0)
+
+snippet cint
+abbr Convert Int
+  int($0)
+
+snippet cfloat
+abbr Convert Float
+  float($0)
+
+snippet cbool
+abbr Convert Boolean
+  bool($0)
+
+snippet pr
+abbr Print
+  print($0)
+
+snippet im
+abbr Import
+  import $0
+
+snippet fstr
+abbr F Str
+  f"$0"
+
+snippet fv
+abbr F Var
+  \${$0}
+
+snippet if
+abbr If
+  if $1:
+    $2
+  else:
+    $3
+
+  $0
+
+snippet elif
+abbr Else If
+  if $1:
+    $2
+  elif $3:
+    $4
+  else:
+    $5
+
+  $0
+
+
+snippet try
+abbr Try
+  try:
+    $1
+  except:
+    $2
+
+  $0
+
+
+snippet case
+abbr Case
+  match $1:
+    case $2:
+      $3
+    case _:
+      $4
+
+  $0
