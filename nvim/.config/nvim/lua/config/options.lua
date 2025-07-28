@@ -1,3 +1,5 @@
+vim.opt.termguicolors = true
+
 -- Enable line numbers and relative line numbers
 vim.wo.number = true
 vim.wo.relativenumber = true
