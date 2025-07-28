@@ -16,9 +16,6 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- Close buffer without saving
 vim.keymap.set('n', '<leader>fq', '<Cmd>:bd!<CR>', {silent = true})
 
--- Close and save buffer
-vim.keymap.set("n", "<leader>q", "<cmd>:w<CR>:bd<CR>", {})
-
 -- Open next URL in current line
 vim.keymap.set("n", "<leader>o", "<cmd>:URLOpenUnderCursor<CR>", {})
 
