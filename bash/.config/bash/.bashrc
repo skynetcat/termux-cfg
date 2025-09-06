@@ -31,7 +31,7 @@ source $HOME/.config/bash/aliases
 # =====================================================
 # ENV VARS
 # =====================================================
-export PATH="$PATH:$HOME/go/bin:$HOME/.local/bin"
+export PATH="$PATH:$HOME/go/bin:$HOME/.local/bin:$HOME/scripts:$HOME/.cargo/bin:$HOME/bin:$HOME/git/termux-bin"
 
 export MANPAGER="nvim +Man!"
 export EDITOR="nvim"
@@ -64,7 +64,7 @@ fi
 export HISTFILESIZE=9999999
 export HISTSIZE=9999999
 export HISTTIMEFORMAT="[%F %T] "
-export HISTCONTROL=ignoreups:erasedups
+export HISTCONTROL=ignoreboth:erasedups
 
 # Change the file location because certain bash sessions truncate .bash_history file upon close.
 # http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
@@ -73,3 +73,6 @@ export HISTFILE="$HOME/data/.bash_eternal_history"
 # Force prompt to write history after every command.
 # http://superuser.com/questions/20900/bash-history-loss
 PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+
+# Starship
+# eval "$(starship init bash)"

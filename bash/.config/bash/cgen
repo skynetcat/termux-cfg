@@ -1,0 +1,116 @@
+#!/usr/bin/env bash
+
+defFile="$1"
+
+echo "" >> "cscheme/$defFile"
+
+printf "${bseq}0;${target}8;2;%d;%d;%dm${eseq}\n" 0x${hex:0:2} 0x${hex:2:2} 0x${hex:4:2}
+
+# ---------------------------------------------
+#
+# \[        begin sequence of non-printing characters.
+# \]        end that sequence.
+#
+# both are used to enclose the color.
+#
+#
+# \033      is escape character.
+#
+# \e        means \033 but someone on stackoverflow said 
+#           it's not supported in all shells, so I'll 
+#           just stick with \033 for now.
+#
+# \033[     means we will start coloring.
+# 
+# \033[0m   means we will reset colors to normal. 
+#           (colors end with m and 0 -> reset)
+# ---------------------------------------------
+
+bseq="\x01\033["      # begins a color sequence
+eseq="\x02"           # end sequence
+
+style=$2
+
+# ---------------------------------------------
+# Text Styles:
+# 0 -> Normal text
+# 1 -> Bold or light text (depending on terminal emulator) 
+# 2 -> Dim text
+# 3 -> Italicized bold text 
+# 4 -> Underlined text
+# 5 -> Blinking text (doesn't work in all terminal emulators)
+# 7 -> Reversed text (inverts fg and bg colors)
+# 8 -> Hidden text
+# ---------------------------------------------
+
+case $style in
+  normal)     tstyle=0 ;;    # t is short for text;;
+  bold)       tstyle=1 ;;
+  dim)        tstyle=2 ;;
+  italic)     tstyle=3 ;;
+  underline)  tstyle=4 ;;
+  blink)      tstyle=5 ;;
+  reverse)    tstyle=7 ;;
+  hide)       tstyle=8 ;;
+esac
+
+# ---------------------------------------------
+# Codes depend on your terminal emulator, so please 
+# refer to your terminal config for color codes.
+# 
+# However, they are generally the same or similar to 
+# codes below.
+#
+#
+# Note: Codes below are fron the foot terminal
+#
+# 0 – Black
+# 1 – Red
+# 2 – Green
+# 3 – yellow    (brown ?)
+# 4 – Blue
+# 5 – Purple
+# 6 – Cyan
+# 7 – White     (light grey?)
+# ---------------------------------------------
+
+# when a color starts with 3 it means foreground color
+# when a color starts with 4 it means background color
+
+case "$3" in
+  fg) target=3 ;;
+  bg) target=4 ;;
+esac
+
+case "$mode" in
+  "term")
+    case $4 in
+      black)      color=0 ;;
+      red)        color=1 ;;
+      green)      color=2 ;;
+      yellow)     color=3 ;;
+      blue)       color=4 ;;
+      purple)     color=5 ;;
+      cyan)       color=6 ;;
+      white)      color=7 ;;
+    esac
+
+    # REMEMBER: 
+    #	'echo' is used to return values
+    #	'return' is used for exit codes (between 0 and 255), 0 means success
+    echo "${bseq}${tstyle};${target}${color}m${eseq}"
+    ;;
+
+  "rgb")
+    # 38    forwards color to foreground
+    # 2     means ANSI support (next sequence is r g b values of color)
+
+    echo "${bseq}${tstyle};${target}8;2;$4;$5;$6m${eseq}"
+    ;;
+
+  "hex")
+    hex="${4/\#/}"
+
+      printf "${bseq}${tstyle};${target}8;2;%d;%d;%dm${eseq}\n" 0x${hex:0:2} 0x${hex:2:2} 0x${hex:4:2}
+    ;;
+esac

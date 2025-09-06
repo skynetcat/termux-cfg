@@ -20,12 +20,54 @@ nc () {
 
 
 # ----------------------------
+# Package Managers
+# ----------------------------
+
+GOPATH="$HOME/go"
+# Golang list packages
+alias gl="ls -1 $GOPATH/bin/"
+
+# Golang remove binary
+gr () {
+ if [[ -f "$GOPATH/bin/$1" ]]; then
+   echo "Are you ABSOLUTELY sure you wanna ERASE '$1' from Go ?"
+   read -rp "(y/N) " grAnswer
+   if [[ "$grAnswer" =~ ^(y|Y|yes|Yes)$ ]]; then
+     rm -rf "$GOPATH/bin/$1"
+     echo "[ERASED] '$1' from '$GOPATH/bin/'"
+   else 
+     echo -e "\nNothing was removed"
+   fi
+ else
+   echo "'$1' does not exist within $GOPATH/bin/"
+ fi
+}
+
+
+cargoc () {
+  echo "Are you ABSOLUTELY sure you wanna ERASE Cache from Cargo ?"
+  read -rp "(y/N) " cargocAnswer
+  if [[ "$cargocAnswer" =~ ^(y|Y|yes|Yes)$ ]]; then
+    rm -rf ~/.cargo
+    echo "[ERASED] Cargo Cache"
+  else 
+    echo -e "\nNothing was removed"
+  fi
+}
+
+
+# ----------------------------
 # TOOLS / UTILITIES
 # ----------------------------
 
 alias cb="cd .."
 alias cr="cd -"
 alias ce="cd /data/data/org.gnu.emacs/"
+
+mkc () {
+  mkdir "$1"
+  cd "$1"
+}
 
 alias c="clear"
 
@@ -47,6 +89,8 @@ alias lynx="lynx -cfg $HOME/.config/lynx/lynx.cfg"
 alias ytd='yt-dlp -f "bestvideo[ext=mp4][vcodec^=avc][height<=480]+bestaudio/best[height<=480]"'
 
 alias stard='sdcv --data-dir="storage/shared/Documents/backup/stardict"'
+
+alias myt="$HOME/.shortcuts/yt"
 
 progManFzf () {
   local fzfNormalMsg="$(paint bg blue " N ") $1"
@@ -186,29 +230,6 @@ alias py="python3"
 
 
 
-# ----------------------------
-# Package Managers
-# ----------------------------
-
-GOPATH="$HOME/go"
-# Golang list packages
-alias gl="ls -1 $GOPATH/bin/"
-
-# Golang remove binary
-gr () {
- if [[ -f "$GOPATH/bin/$1" ]]; then
-   echo "Are you ABSOLUTELY sure you wanna ERASE '$1' from Go ?"
-   read -rp "(y/N) " grAnswer
-   if [[ "$grAnswer" =~ ^(y|Y|yes|Yes)$ ]]; then
-     rm -rf "$GOPATH/bin/$1"
-     echo "[ERASED] '$1' from '$GOPATH/bin/'"
-   else 
-     echo -e "\nNothing was removed"
-   fi
- else
-   echo "'$1' does not exist within $GOPATH/bin/"
- fi
-}
 
 
 
@@ -220,6 +241,9 @@ jumpDirs=(
   "$HOME/git"
   "$HOME/.config"
   "$HOME/data"
+  "$HOME/scripts/"
+  "$HOME/src"
+  "$HOME/code"
 )
 
 jump () { 
